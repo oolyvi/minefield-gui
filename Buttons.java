@@ -4,8 +4,8 @@ import javax.swing.JButton;
 
 public class Buttons extends JButton {
 	
-	private int row, col, count;                //multidimensional array ucun location
-	private boolean mine, flag;                       //mayin olub olmadigi  //flag xatirladici, yeni burada mayin ola biler
+	private int row, col, count;                
+	private boolean mine, flag;                       
 	
 	public Buttons(int row, int col) {
 		this.row = row;
