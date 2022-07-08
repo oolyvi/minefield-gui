@@ -16,25 +16,25 @@ public class MineField implements MouseListener {
 	public MineField() {
 		openButton = 0;
 
-		frame = new JFrame("Mayin Tarlasi");
+		frame = new JFrame("Mine Field");
 		frame.setSize(600, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(10, 10));
 
 		for (int row = 0; row < board.length; row++) {
-			for (int col = 0; col < board[0].length; col++) { // board'i grid layout add etdik ki her defesinde
-																// gridLayout cagirmayaq
+			for (int col = 0; col < board[0].length; col++) { 
+																
 				Buttons b = new Buttons(row, col);
-				frame.add(b); // mayin buton sahelerini qurduq
-				b.addMouseListener(this); // listener elavesi ve this yazdiq cunki eyni classdadir
+				frame.add(b); 
+				b.addMouseListener(this); 
 				board[row][col] = b;
 			}
 		}
 
-		generateMine(); // mayin yaradan method
-		updateCount(); // noqte etrafindaki mayin sayini sayan
-		// print(); //duz isleyib islemediyini print'le baxirdiq
-		// printMine(); //mayinli bolgeleri gosterir
+		generateMine(); 
+		updateCount(); 
+		
+		
 
 		frame.setVisible(true);
 	}
@@ -50,18 +50,18 @@ public class MineField implements MouseListener {
 				randRow = (int) (Math.random() * board.length);
 				randCol = (int) (Math.random() * board[0].length);
 			}
-			board[randRow][randCol].setMine(true); // true edib mayin add edirik
+			board[randRow][randCol].setMine(true); 
 			i++;
 		}
-	} // isMine mayin oldugunu gosterir
+	}
 
 	public void print() {
 		for (int row = 0; row < board.length; row++) {
 			for (int col = 0; col < board[0].length; col++) {
 				if (board[row][col].isMine()) {
 					board[row][col].setIcon(new ImageIcon("mine.png"));
-				} else { // yoxdursa count yazdir updateCount()
-					board[row][col].setText(board[row][col].getCount() + ""); // int string xetasindan qurtulduq +'ile
+				} else { 
+					board[row][col].setText(board[row][col].getCount() + ""); 
 					board[row][col].setEnabled(false);
 				}
 
@@ -83,17 +83,17 @@ public class MineField implements MouseListener {
 		for (int row = 0; row < board.length; row++) {
 			for (int col = 0; col < board[0].length; col++) {
 				if (board[row][col].isMine()) {
-					counting(row, col); // bu methodu asagida tanimlayiriq
+					counting(row, col); 
 				}
 			}
 		}
 	}
 
 	public void counting(int row, int col) {
-		for (int i = row - 1; i <= row + 1; i++) { // setir icindeki saga sola baxmaq
+		for (int i = row - 1; i <= row + 1; i++) { 
 			for (int k = col - 1; k <= col + 1; k++) {
 				try {
-					int value = board[i][k].getCount(); // en yuxari solda 1 sola gede bilmir deye yazdiq bunu
+					int value = board[i][k].getCount(); 
 					board[i][k].setCount(++value);
 				} catch (Exception e) {
 
@@ -103,11 +103,11 @@ public class MineField implements MouseListener {
 		}
 	}
 
-//bu methodda meselen etrafinda 0 olan mayina basmisansa, onun erazisindeki 0 olan mayin erazisi acilacaq kimi
+
 	public void open(int r, int c) {
 		if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c].getText().length() > 0
 				|| board[r][c].isEnabled() == false) {
-			return; // void'de return yazirsansa kod orada bitir
+			return; 
 		} else if (board[r][c].getCount() != 0) {
 			board[r][c].setText(board[r][c].getCount() + "");
 			board[r][c].setEnabled(false);
@@ -123,27 +123,27 @@ public class MineField implements MouseListener {
 
 	}
 
-	// interface'in unimplemented methodlari
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Buttons b = (Buttons) e.getComponent();
-		if (e.getButton() == 1) { // sol tik
-			System.out.println("Sol tik");
+		if (e.getButton() == 1) { 
+			System.out.println("Left Click");
 			if (b.isMine()) {
-				JOptionPane.showMessageDialog(frame, "Mayina basdiniz Oyun Bitti");
-				print(); // oyun bitir deye her seyi acib ortaya tokur
+				JOptionPane.showMessageDialog(frame, "You pressed mine, GAME OVER!");
+				print(); 
 			} else {
 				open(b.getRow(), b.getCol());
 				if (openButton == board.length * board[0].length - 10) {
-					JOptionPane.showMessageDialog(frame, "Tebrikler, oyunu qazandiniz");
-					print(); // qazananda her sey ortada gorunur
+					JOptionPane.showMessageDialog(frame, "Congrulations, YOU WON!");
+					print(); 
 				}
 			}
-		} else if (e.getButton() == 3) { // sag tik //2 de orta scroll
-			System.out.println("Sag tik");
+		} else if (e.getButton() == 3) { 
+			System.out.println("Right Click");
 			if (!b.isFlag()) {
 				b.setIcon(new ImageIcon("flag.png"));
-				b.setFlag(true); // bayraq oldugunu goster
+				b.setFlag(true); 
 			} else {
 				b.setIcon(null);
 				b.setFlag(false);
